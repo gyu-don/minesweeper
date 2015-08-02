@@ -1,0 +1,88 @@
+div#content {
+  margin: auto;
+  display: inline-block;
+}
+
+h1 {
+  font-size: 1.5em;
+  background-color: #0000FF;
+  color: white;
+  border: solid black 1pt;
+  margin: 0pt;
+  padding-left: 0.5em;
+}
+
+div.board {
+  background-color: #eeeeee;
+  padding: 10px 10px;
+  border-color: black;
+  border-width: 1pt;
+  border-style: none solid solid;
+}
+
+div.gameover {
+  background-color: #FF0000;
+}
+
+div.board table { border-style: ridge; border-collapse: collapse; }
+div.board td { border-style: ridge; }
+
+button.minereset {
+  display: block;
+  width: 65px;
+  height: 65px;
+  background-image: url("Acid2.png");
+  background-size: 62px;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+div.counter, div.timer {
+  background-color: black;
+  color: red;
+  text-align: center;
+  width: 5ex;
+  height: 2.5ex;
+  font-size: 3em;
+}
+
+div.counter { float: left; }
+div.timer { float: right; }
+
+/* classes for cell */
+/* Common style for cell */
+.u0, .uf, .uq, .ue, .o0, .o1, .o2, .o3, .o4, .o5, .o6, .o7, .o8, .om {
+  width: 1.5em;
+  height: 1.6em;
+  text-align: center;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.u0, .uq, .ue {
+  background-color: inherit;
+}
+
+.uf {
+  background-color: yellow;
+  font-size: 90%;
+}
+
+.o0, .o1, .o2, .o3, .o4, .o5, .o6, .o7, .o8, .om {
+  font-weight: bold;
+}
+
+.om { background-color: #FF0000; }
+.o0, .o1, .o2, .o3, .o4, .o5, .o6, .o7, .o8 {
+  background-color: #cccccc;
+}
+
+.o1 { color: blue; }
+.o2 { color: green; }
+.o3 { color: red; }
+.o4 { color: navy; }
+.o5 { color: brown; }
+.o7 { color: black; }
+.o8 { color: gray; }
