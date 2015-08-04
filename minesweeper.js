@@ -13,7 +13,7 @@ Game.prototype = {
     height: 0,
     mines: 0,
     left_mines: 0,
-    left_cells: null,
+    left_non_mines: null,
     draw_to: null,
     counter_elem: null,
     timer_elem: null,
@@ -59,7 +59,7 @@ Game.prototype = {
         this.showncell = new Array(len);
         for(i=0;i<len;i++) this.showncell[i] = "u0";
         this.left_mines = this.mines;
-	this.left_cells = len;
+	this.left_non_mines = len - this.mines;
         this.is_firstclick = true;
         clearInterval(this.timer_id);
         this.timer_value = 0;
@@ -77,7 +77,7 @@ Game.prototype = {
         for(i=0,y=0;y<this.height;y++){
             str += '<tr>';
             for(x=0;x<this.width;x++,i++){
-                str += '<td class="' + sc[i] + '" ' + 'title="idx: ' + i + '">' + this.get_innertext(sc[i]) + '</td>';
+                str += '<td class="' + sc[i] + '" ' + '>' + this.get_innertext(sc[i]) + '</td>';
             }
             str += '</tr>';
         }
@@ -149,15 +149,12 @@ Game.prototype = {
 
     open_cell: function(idx){
         this.set_showncell(idx, this.cellstring[idx] == "*" ? "om" : "o" + this.cellstring[idx]);
-	this.left_cells--;
     },
 
     flagging: function(idx){
         if(this.showncell[idx] == 'u0'){
             this.set_showncell(idx, 'uf');
             this.counter_elem.innerHTML = --this.left_mines;
-	    this.left_cells--;
-	    if(this.left_cells == 0 && this.left_mines == 0) this.win()
         }
     },
 
@@ -165,7 +162,6 @@ Game.prototype = {
         if(this.showncell[idx] == 'uf'){
             this.set_showncell(idx, 'u0');
             this.counter_elem.innerHTML = ++this.left_mines;
-	    this.left_cells++;
         }
     },
 
@@ -198,7 +194,7 @@ Game.prototype = {
                 r && b && this.click_action(idx+w+1);
             }
             if(this.cellstring[idx] == "*"){ this.mine_click(); }
-	    else if(this.left_cells == 0 && this.left_mines == 0){ this.win(); }
+	    else if(--this.left_non_mines == 0){ this.win(); }
         }
         return false;
     },
