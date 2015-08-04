@@ -119,8 +119,8 @@ Game.prototype = {
         if(width <= 0 || height <= 0 || mines <= 0){
             alert('Positive integer values are required for width, height, number of mines.');
         }
-        else if(mines > width * height){
-            alert('Number of cells must more than number of mines.');
+        else if(mines >= width * height){
+            alert('Number of mines must less than number of cells.');
         }
         else{
             this.width = width;
