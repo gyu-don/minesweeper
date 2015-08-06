@@ -26,11 +26,15 @@ Game.prototype = {
 	 * The cell of first click and around 8 cells are not mine
 	 * to avoid a junk game.
 	 * Therefore, we cannot determine the board until first click. */
+	var len = this.width * this.height;
+
         clearInterval(this.timer_id);
         this.timer_value = 0;
         this.left_mines = this.mines;
-	this.left_non_mines = this.width*this.height - this.mines;
+	this.left_non_mines = len - this.mines;
         this.is_first_click = true;
+        this.showncell = new Array(len);
+        for(i=0;i<len;i++) this.showncell[i] = "u0";
         this.draw();
     },
 
@@ -135,8 +139,6 @@ Game.prototype = {
 	}
 
         this.cellstring = get_cellstring(this.width, this.height, this.mines, len, idx);
-        this.showncell = new Array(len);
-        for(i=0;i<len;i++) this.showncell[i] = "u0";
 	this.timer_id = setInterval(this.timer_inc.bind(this), 1000);
 	this.is_first_click = false;
     },
@@ -144,7 +146,7 @@ Game.prototype = {
     get_innertext: function(item){
         if(item[1] == "0") return "";
         else if(!isNaN(parseInt(item[1]))) return item[1];
-        else if(item == "uf") return "&#x2691;";
+        else if(item == "uf") return "";
         else if(item == "uq") return "?";
         else if(item == "ue") return "!";
         else if(item == "om") return "*";
