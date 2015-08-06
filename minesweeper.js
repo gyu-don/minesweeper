@@ -19,66 +19,31 @@ Game.prototype = {
     timer_elem: null,
     timer_value: 0,
     timer_id: 0,
-    is_firstclick: true,
+    is_first_click: true,
 
     reset: function(){
-        function get_cellstring(width, height, mines, len){
-            var i, j;
-            var str;
-            var l, r, t, b;
-
-            minemap = new Array(len);
-            for(i=0;i<mines;i++) minemap[i] = 1;
-            for(i=mines;i<len;i++) minemap[i] = 0;
-            // shuffle
-            for(i=len-1,j,t;i>0;i--){
-                j = Math.floor(Math.random() * (i + 1));
-                t = minemap[i];
-                minemap[i] = minemap[j];
-                minemap[j] = t;
-            }
-
-            str = "";
-            for(i=0;i<len;i++){
-                l = (i % width) > 0;
-                r = (i % width) < width - 1;
-                t = i > width - 1;
-                b = i < (height - 1) * width;
-
-                str += minemap[i] ? "*" : (
-                        (l && t && minemap[i-width-1]) + (t && minemap[i-width]) + (r && t && minemap[i-width+1]) +
-                        (l && minemap[i-1]) + (r && minemap[i+1]) +
-                        (l && b && minemap[i+width-1]) + (b && minemap[i+width]) + (r && b && minemap[i+width+1]));
-            }
-            return str;
-        }
-        var i;
-        var len = this.width * this.height;
-
-        this.cellstring = get_cellstring(this.width, this.height, this.mines, len);
-        this.showncell = new Array(len);
-        for(i=0;i<len;i++) this.showncell[i] = "u0";
-        this.left_mines = this.mines;
-	this.left_non_mines = len - this.mines;
-        this.is_firstclick = true;
+	/* In this timing, position of mines is not determined.
+	 * The cell of first click and around 8 cells are not mine
+	 * to avoid a junk game.
+	 * Therefore, we cannot determine the board until first click. */
         clearInterval(this.timer_id);
         this.timer_value = 0;
+        this.left_mines = this.mines;
+	this.left_non_mines = this.width*this.height - this.mines;
+        this.is_first_click = true;
         this.draw();
     },
 
     draw: function(){
         var i, x, y;
-        var sc = this.showncell;
-        var c = this.cellstring;
         var len = this.height * this.width;
 
-        str = '<div class="board"><div class="counter">' + this.mines + '</div><div class="timer">0</div>' +
+        str = '<div class="board"><div class="counter">' + this.mines +
+	    '</div><div class="timer">0</div>' +
             '<button class="minereset"></button><table>';
-        for(i=0,y=0;y<this.height;y++){
+        for(y=0;y<this.height;y++){
             str += '<tr>';
-            for(x=0;x<this.width;x++,i++){
-                str += '<td class="' + sc[i] + '" ' + '>' + this.get_innertext(sc[i]) + '</td>';
-            }
+            for(x=0;x<this.width;x++) str += '<td class="u0"></td>';
             str += '</tr>';
         }
         str += '</table></div>';
@@ -100,6 +65,80 @@ Game.prototype = {
     game_validity: function() {
         return this.width > 0 && this.height > 0 &&
             this.mines > 0 && this.width * this.height > this.mines;
+    },
+
+    first_click: function(idx){
+        function get_cellstring(width, height, mines, len, firstidx){
+            var i, j, tmp;
+            var str;
+            var l, r, t, b;
+	    var n_safespace;
+
+	    l = (firstidx % width) > 0;
+	    r = (firstidx % width) < width - 1;
+	    t = firstidx > width - 1;
+	    b = firstidx < (height - 1) * width;
+	    n_safespace = 9 - !(l&&t) - !t - !(r&&t) - !l - !r - !(l&&b) - !b - !(r&&b);
+	    if(n_safespace > len - mines) n_safespace = 1;
+            minemap = new Array(len);
+            for(i=0;i<mines;i++) minemap[i] = 1;
+            for(i=mines;i<len;i++) minemap[i] = 0;
+            // shuffle
+            for(i=len-1-n_safespace;i>0;i--){
+                j = Math.floor(Math.random() * (i + 1));
+                tmp = minemap[i];
+                minemap[i] = minemap[j];
+                minemap[j] = tmp;
+            }
+	    i = len - 1;
+	    tmp = minemap[firstidx], minemap[firstidx] = minemap[i], minemap[i--] = tmp;
+	    if(n_safespace > 1){
+		l && t && (tmp = minemap[firstidx-width-1],
+			minemap[firstidx-width-1] = minemap[i], minemap[i--] = tmp);
+		t && (tmp = minemap[firstidx-width],
+			minemap[firstidx-width] = minemap[i], minemap[i--] = tmp);
+		r && t && (t = minemap[firstidx-width+1],
+			minemap[firstidx-width+1] = minemap[i], minemap[i--] = tmp);
+		l && (tmp = minemap[firstidx-1],
+			minemap[firstidx-1] = minemap[i], minemap[i--] = tmp);
+		r && (tmp = minemap[firstidx+1],
+			minemap[firstidx+1] = minemap[i], minemap[i--] = tmp);
+		l && b && (tmp = minemap[firstidx-width-1],
+			minemap[firstidx+width-1] = minemap[i], minemap[i--] = tmp);
+		b && (tmp = minemap[firstidx+width],
+			minemap[firstidx+width] = minemap[i], minemap[i--] = tmp);
+		r && b && (tmp = minemap[firstidx+width+1],
+			minemap[firstidx+width+1]=minemap[i], minemap[i--] = tmp);
+	    }
+
+            str = "";
+            for(i=0;i<len;i++){
+                l = (i % width) > 0;
+                r = (i % width) < width - 1;
+                t = i > width - 1;
+                b = i < (height - 1) * width;
+
+                str += minemap[i] ? "*" : (
+                        (l && t && minemap[i-width-1]) + (t && minemap[i-width]) + (r && t && minemap[i-width+1]) +
+                        (l && minemap[i-1]) + (r && minemap[i+1]) +
+                        (l && b && minemap[i+width-1]) + (b && minemap[i+width]) + (r && b && minemap[i+width+1]));
+            }
+            return str;
+        }
+
+        var i;
+        var len = this.width * this.height;
+
+	if(!this.game_validity()){
+	    alert('Invalid parameter.')
+	    return;
+	}
+
+        this.cellstring = get_cellstring(this.width, this.height, this.mines, len, idx);
+        this.showncell = new Array(len);
+        for(i=0;i<len;i++) this.showncell[i] = "u0";
+	this.timer_id = setInterval(this.timer_inc.bind(this), 1000);
+	this.is_first_click = false;
     },
 
     get_innertext: function(item){
@@ -166,16 +205,12 @@ Game.prototype = {
     },
 
     click_action: function(idx){
-        var visited = this.showncell[idx][0] == "o";
-        var is_flagged = this.showncell[idx] == "uf";
+        var visited;
+        var is_flagged;
         var l, r, t, b, w = this.width, h = this.height;
 
-        if(this.is_firstclick){
-            while(this.cellstring[idx] != "0") this.reset();
-            this.timer_id = setInterval(this.timer_inc.bind(this), 1000);
-            this.is_firstclick = false;
-        }
-        if(!visited && !is_flagged){
+        if(this.is_first_click) this.first_click(idx)
+        if(this.showncell[idx][0] != "o" && this.showncell[idx] != "uf"){
             this.open_cell(idx);
             if(this.cellstring[idx] == "0"){
 
