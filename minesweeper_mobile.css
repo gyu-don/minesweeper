@@ -3,6 +3,7 @@ div#content {
   display: inline-block;
 }
 
+/*
 h1 {
   font-size: 1.5em;
   background-color: #0000FF;
@@ -11,44 +12,56 @@ h1 {
   margin: 0pt;
   padding-left: 0.5em;
 }
+*/
+
+body{
+    background-color: #eeeeee;
+}
 
 div.board {
-  background-color: #eeeeee;
-  padding: 5px 5px;
-  border-color: black;
-  border-width: 1pt;
-  border-style: none solid solid;
+    text-align: center;
+    background-color: #eeeeee;
+    width: 100%;
+    margin: 190px 0 0 0;
 }
 
-div.gameover {
-  background-color: #FF0000;
+div.tools {
+    background-color: #eeeeee;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    top: 0px;
 }
 
-div.board table { border-style: ridge; border-collapse: collapse; }
+div.tools form { margin: 0; }
+
+div.board table {
+    border-style: ridge;
+    border-collapse: collapse;
+}
 div.board td { border-style: ridge; }
 
 button.minereset {
-  display: block;
-  width: 4em;
-  height: 4em;
-  background-image: url("Acid2.png");
-  background-size: contain;
-  margin: auto;
-  margin-bottom: 5px;
+    display: inline-block;
+    width: 80px;
+    height: 80px; 
+    background-image: url("Acid2.png");
+    background-size: contain;
+    margin: auto;
+    margin-bottom: 5px;
 }
 
 div.counter, div.timer {
-  background-color: black;
-  color: red;
-  text-align: center;
-  vertical-align: center;
-  width: 6ex;
-  height: 3ex;
-  font-size: 2.5em;
+    display: inline-block;
+    background-color: black;
+    color: red;
+    text-align: center;
+    vertical-align: middle;
+    width: 120px;
+    height: 60px;
+    margin: 10px;
+    font-size: 2.5em;
 }
-
-div.counter { float: left; }
-div.timer { float: right; }
 
 div.tools input { display: none; }
 div.tools label {
@@ -64,34 +77,35 @@ div.tools input:checked + label {
 /* classes for cell */
 /* Common style for cell */
 .u0, .uf, .uq, .ue, .o0, .o1, .o2, .o3, .o4, .o5, .o6, .o7, .o8, .om {
-  width: 3em;
-  height: 3em;
-  text-align: center;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  font-size: 2.8em;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    font-size: 2em;
 }
 
 .u0, .uq, .ue {
-  background-color: inherit;
+    background-color: inherit;
 }
 
 .uf {
-  background-color: yellow;
-  background-image: url("flag.png");
-  background-position: center center;
-  background-repeat: no-repeat;
+    background-color: yellow;
+    background-image: url("flag.png");
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 .o0, .o1, .o2, .o3, .o4, .o5, .o6, .o7, .o8, .om {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .om { background-color: #FF0000; }
 .o0, .o1, .o2, .o3, .o4, .o5, .o6, .o7, .o8 {
-  background-color: #cccccc;
+    background-color: #cccccc;
 }
 
 .o1 { color: blue; }
