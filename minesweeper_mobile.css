@@ -36,10 +36,14 @@ div.tools {
 div.tools form { margin: 0; }
 
 div.board table {
-    border-style: ridge;
+    border-style: solid;
+    border-width: 1px;
     border-collapse: collapse;
 }
-div.board td { border-style: ridge; }
+div.board td {
+    border-style: solid;
+    border-width: 1px;
+}
 
 button.minereset {
     display: inline-block;
@@ -77,8 +81,8 @@ div.tools input:checked + label {
 /* classes for cell */
 /* Common style for cell */
 .u0, .uf, .uq, .ue, .o0, .o1, .o2, .o3, .o4, .o5, .o6, .o7, .o8, .om {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     text-align: center;
     user-select: none;
     -moz-user-select: none;
