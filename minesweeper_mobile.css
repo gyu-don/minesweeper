@@ -29,8 +29,8 @@ div.board td { border-style: ridge; }
 
 button.minereset {
   display: block;
-  width: 3em;
-  height: 3em;
+  width: 4em;
+  height: 4em;
   background-image: url("Acid2.png");
   background-size: contain;
   margin: auto;
@@ -42,13 +42,24 @@ div.counter, div.timer {
   color: red;
   text-align: center;
   vertical-align: center;
-  width: 5ex;
-  height: 2.5ex;
-  font-size: 1.5em;
+  width: 6ex;
+  height: 3ex;
+  font-size: 2.5em;
 }
 
 div.counter { float: left; }
 div.timer { float: right; }
+
+div.tools input { display: none; }
+div.tools label {
+    display: inline-block;
+    border: ridge 4px #000000;
+    margin: 5px;
+}
+div.tools input:checked + label {
+    background-color: #ffffff;
+    border: ridge 4px #FF0000;
+}
 
 /* classes for cell */
 /* Common style for cell */
@@ -60,6 +71,7 @@ div.timer { float: right; }
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  font-size: 2.8em;
 }
 
 .u0, .uq, .ue {
@@ -71,7 +83,6 @@ div.timer { float: right; }
   background-image: url("flag.png");
   background-position: center center;
   background-repeat: no-repeat;
-  font-size: 110%;
 }
 
 .o0, .o1, .o2, .o3, .o4, .o5, .o6, .o7, .o8, .om {
