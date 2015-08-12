@@ -44,7 +44,7 @@ div.counter, div.timer {
   vertical-align: center;
   width: 5ex;
   height: 2ex;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 div.counter { float: left; }
@@ -53,8 +53,8 @@ div.timer { float: right; }
 /* classes for cell */
 /* Common style for cell */
 .u0, .uf, .uq, .ue, .o0, .o1, .o2, .o3, .o4, .o5, .o6, .o7, .o8, .om {
-  width: 2em;
-  height: 2em;
+  width: 3em;
+  height: 3em;
   text-align: center;
   user-select: none;
   -moz-user-select: none;

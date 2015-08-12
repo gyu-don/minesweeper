@@ -29,10 +29,10 @@ div.board td { border-style: ridge; }
 
 button.minereset {
   display: block;
-  width: 65px;
-  height: 65px;
+  width: 55px;
+  height: 55px;
   background-image: url("Acid2.png");
-  background-size: 62px;
+  background-size: 52px;
   margin: auto;
   margin-bottom: 10px;
 }
@@ -41,9 +41,10 @@ div.counter, div.timer {
   background-color: black;
   color: red;
   text-align: center;
+  vertical-align: center;
   width: 5ex;
   height: 2.5ex;
-  font-size: 3em;
+  font-size: 2.5em;
 }
 
 div.counter { float: left; }
