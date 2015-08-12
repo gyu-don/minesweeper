@@ -29,8 +29,8 @@ div.board td { border-style: ridge; }
 
 button.minereset {
   display: block;
-  width: 2.5em;
-  height: 2.5em;
+  width: 3em;
+  height: 3em;
   background-image: url("Acid2.png");
   background-size: contain;
   margin: auto;
@@ -43,7 +43,7 @@ div.counter, div.timer {
   text-align: center;
   vertical-align: center;
   width: 5ex;
-  height: 2ex;
+  height: 2.5ex;
   font-size: 1.5em;
 }
 
@@ -71,7 +71,7 @@ div.timer { float: right; }
   background-image: url("flag.png");
   background-position: center center;
   background-repeat: no-repeat;
-  font-size: 90%;
+  font-size: 110%;
 }
 
 .o0, .o1, .o2, .o3, .o4, .o5, .o6, .o7, .o8, .om {
