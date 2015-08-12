@@ -16,29 +16,31 @@ h1 {
 
 body{
     background-color: #eeeeee;
+    width: 640px;
 }
 
 div.board {
     text-align: center;
     background-color: #eeeeee;
-    width: 100%;
+    width: 640px;
     margin: 190px 0 0 0;
 }
 
 div.tools {
     background-color: #eeeeee;
     text-align: center;
-    width: 100%;
     position: fixed;
     top: 0px;
+    width: 640px;
 }
 
 div.tools form { margin: 0; }
 
 div.board table {
     border-style: solid;
-    border-width: 1px;
+    border-width: 1.5px;
     border-collapse: collapse;
+    border-color: #000000;
 }
 div.board td {
     border-style: solid;
