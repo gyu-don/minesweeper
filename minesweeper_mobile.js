@@ -7,11 +7,11 @@ Game.prototype.draw = function(){
 	'<button class="minereset"></button><div class="timer" id="timer">0</div>' + 
 	'<form name="tap_mode">' +
 	'<input name="tap" type="radio" id="tap_cl" value="click" checked>' +
-	'<label for="tap_cl" class="click"><img src="click.png"></label>' + 
+	'<label for="tap_cl" class="click"><img src="img/click.png"></label>' + 
 	'<input name="tap" type="radio" id="tap_rc" value="rightclick">' + 
-	'<label for="tap_rc" class="rightclick"><img src="rightclick.png"></label>' +
+	'<label for="tap_rc" class="rightclick"><img src="img/rightclick.png"></label>' +
 	'<input name="tap" type="radio" id="tap_dc" value="doubleclick">' + 
-	'<label for="tap_dc" class="doubleclick"><img src="doubleclick.png"></label>'+
+	'<label for="tap_dc" class="doubleclick"><img src="img/doubleclick.png"></label>'+
 	'</form></div></div><div class="board"><table>';
     for(y=0;y<this.height;y++){
 	str += '<tr>';

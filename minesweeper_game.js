@@ -107,7 +107,7 @@ Game.prototype = {
 			minemap[firstidx-1] = minemap[i], minemap[i--] = tmp);
 		r && (tmp = minemap[firstidx+1],
 			minemap[firstidx+1] = minemap[i], minemap[i--] = tmp);
-		l && b && (tmp = minemap[firstidx-width-1],
+		l && b && (tmp = minemap[firstidx+width-1],
 			minemap[firstidx+width-1] = minemap[i], minemap[i--] = tmp);
 		b && (tmp = minemap[firstidx+width],
 			minemap[firstidx+width] = minemap[i], minemap[i--] = tmp);
