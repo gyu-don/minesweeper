@@ -77,6 +77,7 @@ Game.prototype = {
             var str;
             var l, r, t, b;
 	    var n_safespace;
+	    var minemap;
 
 	    l = (firstidx % width) > 0;
 	    r = (firstidx % width) < width - 1;
@@ -94,6 +95,7 @@ Game.prototype = {
                 minemap[i] = minemap[j];
                 minemap[j] = tmp;
             }
+
 	    i = len - 1;
 	    tmp = minemap[firstidx], minemap[firstidx] = minemap[i], minemap[i--] = tmp;
 	    if(n_safespace > 1){
@@ -101,7 +103,7 @@ Game.prototype = {
 			minemap[firstidx-width-1] = minemap[i], minemap[i--] = tmp);
 		t && (tmp = minemap[firstidx-width],
 			minemap[firstidx-width] = minemap[i], minemap[i--] = tmp);
-		r && t && (t = minemap[firstidx-width+1],
+		r && t && (tmp = minemap[firstidx-width+1],
 			minemap[firstidx-width+1] = minemap[i], minemap[i--] = tmp);
 		l && (tmp = minemap[firstidx-1],
 			minemap[firstidx-1] = minemap[i], minemap[i--] = tmp);
