@@ -2,7 +2,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Minesweeper</title>
-<script type="text/javascript" src="minesweeper.js"></script>
+<script type="text/javascript" src="minesweeper_game.js"></script>
 <script type="text/javascript" src="solver.js"></script>
 <link rel="stylesheet" href="minesweeper.css" type="text/css">
 </head>
@@ -12,7 +12,7 @@
     <div id="main"></div>
     <div id="other">
 	<form onsubmit="return game.resize_board(this.w.value, this.h.value, this.n.value),false">
-	    <input type="button" value="Solve" onclick="void(solve())"><br>
+	    <input type="button" value="Solve" onclick="void(game.solve())"><br>
 	    <label for="w">Width:</label><input type="number" name="w" id="in_w"><br>
 	    <label for="h">Height:</label><input type="number" name="h" id="in_h"><br>
 	    <label for="n">Number of mines:</label><input type="number" name="n" id="in_n">

@@ -9,18 +9,6 @@ function Game(width, height, mines, draw_to){
 }
 
 Game.prototype = {
-    width: 0,
-    height: 0,
-    mines: 0,
-    left_mines: 0,
-    left_non_mines: null,
-    draw_to: null,
-    counter_elem: null,
-    timer_elem: null,
-    timer_value: 0,
-    timer_id: 0,
-    is_first_click: true,
-
     reset: function(){
 	/* In this timing, position of mines is not determined.
 	 * The cell of first click and around 8 cells are not mine
@@ -181,7 +169,7 @@ Game.prototype = {
 
     win: function(){
         clearInterval(this.timer_id);
-	alert('You Win!');
+	alert('Congratulations!');
     },
 
     set_showncell: function(idx, cellclass){
