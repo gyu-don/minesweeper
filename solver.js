@@ -40,7 +40,7 @@ Solver.prototype.hints_prototype = {
 	    for(i=0;i<indices.length;i++) this.add([indices[i]], 0, is_recursion);
 	}
 	else{
-	    for(i=this.mines.length-1;i>=0;i--){
+	    for(i=0;i<this.mines.length;i++){
 		cross = this.get_intersection(this.indices[i], indices);
 		if(cross.length){
 		    a = this.get_complement(this.indices[i], cross);
