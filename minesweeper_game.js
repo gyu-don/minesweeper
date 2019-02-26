@@ -10,16 +10,16 @@ function Game(width, height, mines, draw_to){
 
 Game.prototype = {
     reset: function(){
-	/* In this timing, position of mines is not determined.
-	 * The cell of first click and around 8 cells are not mine
-	 * to avoid a junk game.
-	 * Therefore, we cannot determine the board until first click. */
-	var len = this.width * this.height;
+        /* In this timing, position of mines is not determined.
+         * The cell of first click and around 8 cells are not mine
+         * to avoid a junk game.
+         * Therefore, we cannot determine the board until first click. */
+        var len = this.width * this.height;
 
         clearInterval(this.timer_id);
         this.timer_value = 0;
         this.left_mines = this.mines;
-	this.left_non_mines = len - this.mines;
+        this.left_non_mines = len - this.mines;
         this.is_first_click = true;
         this.showncell = new Array(len);
         for(i=0;i<len;i++) this.showncell[i] = "u0";
@@ -31,7 +31,7 @@ Game.prototype = {
         var len = this.height * this.width;
 
         str = '<div class="board"><div class="counter">' + this.mines +
-	    '</div><div class="timer">0</div>' +
+            '</div><div class="timer">0</div>' +
             '<button class="minereset"></button><table>';
         for(y=0;y<this.height;y++){
             str += '<tr>';
@@ -64,15 +64,15 @@ Game.prototype = {
             var i, j, tmp;
             var str;
             var l, r, t, b;
-	    var n_safespace;
-	    var minemap;
+            var n_safespace;
+            var minemap;
 
-	    l = (firstidx % width) > 0;
-	    r = (firstidx % width) < width - 1;
-	    t = firstidx > width - 1;
-	    b = firstidx < (height - 1) * width;
-	    n_safespace = 9 - !(l&&t) - !t - !(r&&t) - !l - !r - !(l&&b) - !b - !(r&&b);
-	    if(n_safespace > len - mines) n_safespace = 1;
+            l = (firstidx % width) > 0;
+            r = (firstidx % width) < width - 1;
+            t = firstidx > width - 1;
+            b = firstidx < (height - 1) * width;
+            n_safespace = 9 - !(l&&t) - !t - !(r&&t) - !l - !r - !(l&&b) - !b - !(r&&b);
+            if(n_safespace > len - mines) n_safespace = 1;
             minemap = new Array(len);
             for(i=0;i<mines;i++) minemap[i] = 1;
             for(i=mines;i<len;i++) minemap[i] = 0;
@@ -84,26 +84,26 @@ Game.prototype = {
                 minemap[j] = tmp;
             }
 
-	    i = len - 1;
-	    tmp = minemap[firstidx], minemap[firstidx] = minemap[i], minemap[i--] = tmp;
-	    if(n_safespace > 1){
-		l && t && (tmp = minemap[firstidx-width-1],
-			minemap[firstidx-width-1] = minemap[i], minemap[i--] = tmp);
-		t && (tmp = minemap[firstidx-width],
-			minemap[firstidx-width] = minemap[i], minemap[i--] = tmp);
-		r && t && (tmp = minemap[firstidx-width+1],
-			minemap[firstidx-width+1] = minemap[i], minemap[i--] = tmp);
-		l && (tmp = minemap[firstidx-1],
-			minemap[firstidx-1] = minemap[i], minemap[i--] = tmp);
-		r && (tmp = minemap[firstidx+1],
-			minemap[firstidx+1] = minemap[i], minemap[i--] = tmp);
-		l && b && (tmp = minemap[firstidx+width-1],
-			minemap[firstidx+width-1] = minemap[i], minemap[i--] = tmp);
-		b && (tmp = minemap[firstidx+width],
-			minemap[firstidx+width] = minemap[i], minemap[i--] = tmp);
-		r && b && (tmp = minemap[firstidx+width+1],
-			minemap[firstidx+width+1]=minemap[i], minemap[i--] = tmp);
-	    }
+            i = len - 1;
+            tmp = minemap[firstidx], minemap[firstidx] = minemap[i], minemap[i--] = tmp;
+            if(n_safespace > 1){
+                l && t && (tmp = minemap[firstidx-width-1],
+                    minemap[firstidx-width-1] = minemap[i], minemap[i--] = tmp);
+                t && (tmp = minemap[firstidx-width],
+                    minemap[firstidx-width] = minemap[i], minemap[i--] = tmp);
+                r && t && (tmp = minemap[firstidx-width+1],
+                    minemap[firstidx-width+1] = minemap[i], minemap[i--] = tmp);
+                l && (tmp = minemap[firstidx-1],
+                    minemap[firstidx-1] = minemap[i], minemap[i--] = tmp);
+                r && (tmp = minemap[firstidx+1],
+                    minemap[firstidx+1] = minemap[i], minemap[i--] = tmp);
+                l && b && (tmp = minemap[firstidx+width-1],
+                    minemap[firstidx+width-1] = minemap[i], minemap[i--] = tmp);
+                b && (tmp = minemap[firstidx+width],
+                    minemap[firstidx+width] = minemap[i], minemap[i--] = tmp);
+                r && b && (tmp = minemap[firstidx+width+1],
+                    minemap[firstidx+width+1]=minemap[i], minemap[i--] = tmp);
+            }
 
             str = "";
             for(i=0;i<len;i++){
@@ -113,9 +113,9 @@ Game.prototype = {
                 b = i < (height - 1) * width;
 
                 str += minemap[i] ? "*" : (
-                        (l && t && minemap[i-width-1]) + (t && minemap[i-width]) + (r && t && minemap[i-width+1]) +
-                        (l && minemap[i-1]) + (r && minemap[i+1]) +
-                        (l && b && minemap[i+width-1]) + (b && minemap[i+width]) + (r && b && minemap[i+width+1]));
+                    (l && t && minemap[i-width-1]) + (t && minemap[i-width]) + (r && t && minemap[i-width+1]) +
+                    (l && minemap[i-1]) + (r && minemap[i+1]) +
+                    (l && b && minemap[i+width-1]) + (b && minemap[i+width]) + (r && b && minemap[i+width+1]));
             }
             return str;
         }
@@ -123,14 +123,14 @@ Game.prototype = {
         var i;
         var len = this.width * this.height;
 
-	if(!this.game_validity()){
-	    alert('Invalid parameter.')
-	    return;
-	}
+        if(!this.game_validity()){
+            alert('Invalid parameter.')
+            return;
+        }
 
         this.cellstring = get_cellstring(this.width, this.height, this.mines, len, idx);
-	this.timer_id = setInterval(this.timer_inc.bind(this), 1000);
-	this.is_first_click = false;
+        this.timer_id = setInterval(this.timer_inc.bind(this), 1000);
+        this.is_first_click = false;
     },
 
     get_innertext: function(item){
@@ -164,12 +164,12 @@ Game.prototype = {
     mine_click: function(){
         this.counter_elem.innerHTML = --this.left_mines;
         clearInterval(this.timer_id);
-	this.draw_to.childNodes[0].style.backgroundColor = '#F0A0A0';
+        this.draw_to.childNodes[0].style.backgroundColor = '#F0A0A0';
     },
 
     win: function(){
         clearInterval(this.timer_id);
-	alert('Congratulations!');
+        alert('Congratulations!');
     },
 
     set_showncell: function(idx, cellclass){
@@ -221,7 +221,7 @@ Game.prototype = {
                 r && b && this.click_action(idx+w+1);
             }
             if(this.cellstring[idx] == "*"){ this.mine_click(); }
-	    else if(--this.left_non_mines == 0){ this.win(); }
+            else if(--this.left_non_mines == 0){ this.win(); }
         }
         return false;
     },
