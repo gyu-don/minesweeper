@@ -14,7 +14,7 @@ Game.prototype = {
          * The cell of first click and around 8 cells are not mine
          * to avoid a junk game.
          * Therefore, we cannot determine the board until first click. */
-        var len = this.width * this.height;
+        const len = this.width * this.height;
 
         clearInterval(this.timer_id);
         this.timer_value = 0;
@@ -27,15 +27,14 @@ Game.prototype = {
     },
 
     draw: function(){
-        var i, x, y;
-        var len = this.height * this.width;
+        const len = this.height * this.width;
 
         str = '<div class="board"><div class="counter">' + this.mines +
             '</div><div class="timer">0</div>' +
             '<button class="minereset"></button><table>';
-        for(y=0;y<this.height;y++){
+        for(let y = 0; y < this.height; y++){
             str += '<tr>';
-            for(x=0;x<this.width;x++) str += '<td class="u0"></td>';
+            for(let x=0; x < this.width; x++) str += '<td class="u0"></td>';
             str += '</tr>';
         }
         str += '</table></div>';
@@ -47,7 +46,7 @@ Game.prototype = {
 
         this.cellelems = this.draw_to.getElementsByTagName("td");
 
-        for(i=0;i<len;i++){
+        for(let i = 0; i < len; i++){
             this.cellelems[i].onclick = this.click_action.bind(this, i);
             this.cellelems[i].oncontextmenu = this.rightclick_action.bind(this, i);
             this.cellelems[i].ondblclick = this.doubleclick_action.bind(this, i);
@@ -61,32 +60,34 @@ Game.prototype = {
 
     first_click: function(idx){
         function get_cellstring(width, height, mines, len, firstidx){
-            var i, j, tmp;
-            var str;
-            var l, r, t, b;
-            var n_safespace;
-            var minemap;
+            let minemap = new Array(len);
 
-            l = (firstidx % width) > 0;
-            r = (firstidx % width) < width - 1;
-            t = firstidx > width - 1;
-            b = firstidx < (height - 1) * width;
-            n_safespace = 9 - !(l&&t) - !t - !(r&&t) - !l - !r - !(l&&b) - !b - !(r&&b);
+            const l = (firstidx % width) > 0;
+            const r = (firstidx % width) < width - 1;
+            const t = firstidx > width - 1;
+            const b = firstidx < (height - 1) * width;
+
+            let n_safespace = 9 - !(l&&t) - !t - !(r&&t) - !l - !r - !(l&&b) - !b - !(r&&b);
             if(n_safespace > len - mines) n_safespace = 1;
-            minemap = new Array(len);
-            for(i=0;i<mines;i++) minemap[i] = 1;
-            for(i=mines;i<len;i++) minemap[i] = 0;
+
+            for(let i = 0; i < mines; i++) minemap[i] = 1;
+            for(let i = mines;i < len; i++) minemap[i] = 0;
             // shuffle
-            for(i=len-1-n_safespace;i>0;i--){
-                j = Math.floor(Math.random() * (i + 1));
-                tmp = minemap[i];
+            for(let i = len - 1 - n_safespace; i > 0; i--){
+                const j = Math.floor(Math.random() * (i + 1));
+                const tmp = minemap[i];
                 minemap[i] = minemap[j];
                 minemap[j] = tmp;
             }
 
             i = len - 1;
-            tmp = minemap[firstidx], minemap[firstidx] = minemap[i], minemap[i--] = tmp;
+            const tmp = minemap[firstidx];
+            minemap[firstidx] = minemap[i];
+            minemap[i--] = tmp;
+
             if(n_safespace > 1){
+                let tmp;
+
                 l && t && (tmp = minemap[firstidx-width-1],
                     minemap[firstidx-width-1] = minemap[i], minemap[i--] = tmp);
                 t && (tmp = minemap[firstidx-width],
@@ -105,12 +106,12 @@ Game.prototype = {
                     minemap[firstidx+width+1]=minemap[i], minemap[i--] = tmp);
             }
 
-            str = "";
-            for(i=0;i<len;i++){
-                l = (i % width) > 0;
-                r = (i % width) < width - 1;
-                t = i > width - 1;
-                b = i < (height - 1) * width;
+            let str = "";
+            for(let i = 0; i < len; i++){
+                const l = (i % width) > 0;
+                const r = (i % width) < width - 1;
+                const t = i > width - 1;
+                const b = i < (height - 1) * width;
 
                 str += minemap[i] ? "*" : (
                     (l && t && minemap[i-width-1]) + (t && minemap[i-width]) + (r && t && minemap[i-width+1]) +
@@ -119,9 +120,7 @@ Game.prototype = {
             }
             return str;
         }
-
-        var i;
-        var len = this.width * this.height;
+        const len = this.width * this.height;
 
         if(!this.game_validity()){
             alert('Invalid parameter.')
@@ -234,18 +233,19 @@ Game.prototype = {
     },
 
     doubleclick_action: function(idx){
-        var n;
-        var l, r, t, b, w = this.width, h = this.height, mines;
+        const w = this.width;
+        const h = this.height;
 
         if(this.showncell[idx][0] == 'o'){
-            n = parseInt(this.showncell[idx][1]);
+            const n = parseInt(this.showncell[idx][1]);
             if(n){
-                l = (idx % w) > 0;
-                r = (idx % w) < w - 1;
-                t = idx > w - 1;
-                b = idx < (h - 1) * w;
+                const l = (idx % w) > 0;
+                const r = (idx % w) < w - 1;
+                const t = idx > w - 1;
+                const b = idx < (h - 1) * w;
 
                 // count flags (& opened mines)
+                let mines;
                 mines = l && t && (this.showncell[idx-w-1] == "uf" || this.showncell[idx-w-1] == "om");
                 mines += t && (this.showncell[idx-w] == "uf" || this.showncell[idx-w] == "om");
                 mines += r && t && (this.showncell[idx-w+1] == "uf" || this.showncell[idx-w+1] == "om");
