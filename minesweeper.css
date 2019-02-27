@@ -90,3 +90,7 @@ div.timer { float: right; }
 .o5 { color: brown; }
 .o7 { color: black; }
 .o8 { color: gray; }
+
+.prob {
+  font-size: 60%;
+}
