@@ -39,10 +39,10 @@ Solver.prototype.hints_prototype = {
         }
         else{
             for(let i=0;i<this.mines.length;i++){
-                cross = this.get_intersection(this.indices[i], indices);
+                cross = intersection(this.indices[i], indices);
                 if(cross.length){
-                    const a = this.get_complement(this.indices[i], cross);
-                    const b = this.get_complement(indices, cross);
+                    const a = complement(this.indices[i], cross);
+                    const b = complement(indices, cross);
                     if(!a.length){
                         if(b.length) this.add(b, mines - this.mines[i], is_recursion);
                         return;
@@ -86,53 +86,7 @@ Solver.prototype.hints_prototype = {
     with_around: function(idx){
         const width = this.solver.width;
         const height = this.solver.height;
-        let a = new Array();
-
-        const l = (idx % width) > 0;
-        const r = (idx % width) < width - 1;
-        const t = idx > width - 1;
-        const b = idx < (height - 1) * width;
-
-        t && l && a.push(idx - width - 1);
-        t && a.push(idx - width);
-        t && r && a.push(idx - width + 1);
-        l && a.push(idx - 1);
-        //a.push(idx);
-        r && a.push(idx + 1);
-        b && l && a.push(idx + width - 1);
-        b && a.push(idx + width);
-        b && r && a.push(idx + width + 1);
-
-        return a;
-    },
-
-    get_intersection: function(a, b){
-        let intersection = new Array();
-        let ai, bi;
-
-        for(ai=bi=0;ai<a.length&&bi<b.length;){
-            if(a[ai] < b[bi]) ai++;
-            else if(a[ai] > b[bi]) bi++;
-            else{
-                intersection.push(a[ai]);
-                ai++;
-                bi++;
-            }
-        }
-        return intersection;
-    },
-
-    get_complement: function(a, b){
-        let complement = new Array();
-        let ai, bi;
-
-        for(ai=bi=0;ai<a.length&&bi<b.length;){
-            if(b[bi] < a[ai]) bi++;
-            else if(a[ai] < b[bi]) complement.push(a[ai++]);
-            else{ ai++; bi++; }
-        }
-        for(;ai<a.length;) complement.push(a[ai++]);
-        return complement;
+        return around(width, height, idx);
     },
 
     cleanup: function(a, b){
@@ -152,7 +106,7 @@ Solver.prototype.hints_prototype = {
     /* For debug. */
     query: function(x, y){
         let s='';
-        if(y) x += y * this.solver.width;
+        if(y) x += y * thisasolver.width;
         for(let i = 0; i < this.mines.length; i++){
             if(this.indices[i].indexOf(x) != -1) s += i+': { '+this.indices[i]+' } '+this.mines[i]+'\n';
         }
@@ -203,7 +157,6 @@ Solver.prototype.solve = function(){
 
 function ProbSolver(width, height, mines, draw_to){
     Solver.call(this, width, height, mines, draw_to);
-    this.probdict = {};
     this.show_prob = false;
 }
 
@@ -237,8 +190,15 @@ ProbSolver.prototype.reset = function(idx) {
 }
 
 ProbSolver.prototype.calc_prob = function() {
-    this.show_prob = true;
-    this.draw_prob();
+    const unopened = this.get_unopened();
+    const orphans = this.get_orphans();
+    const edges = complement(unopened, orphans);
+    const mines = this.get_mines();
+    const left_mines = this.left_mines;
+    let dict = {};
+    edges.forEach(idx => dict[idx] = 0.999);
+    console.log(this.hints);
+    return [dict, left_mines / unopened.length];
 }
 
 ProbSolver.prototype.draw_prob = function() {
@@ -246,17 +206,40 @@ ProbSolver.prototype.draw_prob = function() {
     const tds = this.draw_to.getElementsByTagName('td');
     if (!this.show_prob) {
         for (let i = 0; i < len; i++) {
-            if (this.showncell[i] != 'u0') continue;
+            if (this.showncell[i][0] != 'u') continue;
             tds[i].innerHTML = '';
         }
         return;
     }
-    const p_nohint = 0.123;
+    const [p_dict, p_nohint] = this.calc_prob();
     for (let i = 0; i < len; i++) {
         if (this.showncell[i] != 'u0') continue;
-        const p = (i in this.probdict) ? this.probdict[i] : p_nohint;
-        tds[i].innerHTML = '<span class="prob">.' + Math.round(p * 1000) + '</span>';
+        const p = (i in p_dict) ? p_dict[i] : p_nohint;
+        tds[i].innerHTML = '<span class="prob">.' + ('000' + Math.round(p * 1000)).slice(-3) + '</span>';
     }
+}
+
+ProbSolver.prototype.activate_calc_prob = function() {
+    this.show_prob = true;
+    this.draw_prob();
+}
+
+ProbSolver.prototype.get_unopened = function() {
+    const len = this.width * this.height;
+    return range(len).filter(i => this.showncell[i] == 'u0');
+}
+
+ProbSolver.prototype.get_orphans = function() {
+    const width = this.width;
+    const height = this.height;
+    const len = width * height;
+    return range(len).filter(i => this.showncell[i] == 'u0' &&
+            around(width, height, i).every(idx => this.showncell[idx][0] == 'u')
+    );
+}
+
+ProbSolver.prototype.get_mines = function() {
+    return range(this.width * this.height).filter(i => this.showncell[i] == 'uf' || this.showncell[i] == 'om');
 }
 
 var game;
